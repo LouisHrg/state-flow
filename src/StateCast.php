@@ -12,7 +12,9 @@ class StateCast implements CastsAttributes
 {
     public function get($model, $key, $value, $attributes)
     {
-        $stateValue = $model::findState($value, $key);
+        $stateValue = $value
+        ? $model::findState($value, $key)
+        : $model::findDefaultState($key);
 
         if($stateValue) {
             return new State($stateValue);

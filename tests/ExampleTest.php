@@ -1,18 +1,18 @@
 <?php
 
-namespace Louishrg\LaravelStateMachine\Tests;
+namespace Louishrg\StateFlow\Tests;
 
 use Orchestra\Testbench\TestCase;
-use Louishrg\LaravelStateMachine\LaravelStateMachineServiceProvider;
+use Louishrg\StateFlow\StateFlowServiceProvider;
 
 class ExampleTest extends TestCase
 {
 
     protected function getPackageProviders($app)
     {
-        return [LaravelStateMachineServiceProvider::class];
+        return [StateFlowServiceProvider::class];
     }
-    
+
     /** @test */
     public function true_is_true()
     {

@@ -79,6 +79,14 @@ trait WithState
       return null;
   }
 
+  public static function findDefaultState($namespace): ?string
+  {
+      if(static::$states[$namespace]->default){
+        return static::$states[$namespace]->default;
+      }
+      throw new Exception('You must provide a default value or assign a value to your state');
+  }
+
   public static function getStateStack(string $namespace)
   {
     $output = [];
@@ -88,6 +96,51 @@ trait WithState
     }
 
     return collect($output);
+  }
+
+  public function verifyStates()
+  {
+    foreach (self::$states as $namespace => $data) {
+
+      $target = $this->$namespace->class;
+
+      if(!in_array($target, $data->states)){
+        throw new Exception('Provided states isn\'t registered for "'.$namespace);
+      }
+    }
+  }
+
+  public function verifyTransitions()
+  {
+    foreach (self::$states as $namespace => $data) {
+
+      if(!property_exists($data, 'flows')) continue;
+
+      $original = $this->original
+      ? self::findState($this->original[$namespace], $namespace)
+      : self::findDefaultState($namespace);
+
+      $target = $this->$namespace->class;
+      $allowedTransition = $data->flows[$original] ?? null;
+
+      if(!$allowedTransition){
+        throw new Exception('Transition for "'.$namespace.'" not  allowed from '.$original.' to '.$target);
+      }
+
+      if($original === $target) continue;
+
+      if(!in_array($target, $allowedTransition)){
+        throw new Exception('Transition for "'.$namespace.'" not  allowed from '.$original.' to '.$target);
+      }
+    }
+  }
+
+  public function save(array $options = []){
+
+      $this->verifyStates();
+      $this->verifyTransitions();
+
+      parent::save($options);
   }
 
 }

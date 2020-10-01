@@ -10,8 +10,9 @@ You can install the package via composer:
 composer require louishrg/state-flow
 ```
 
-## Usage
+## Simple states AKA StateStack
 
+Simple stack that doesn't need to register transtions. If you want for example to add a hardcoded type or category to your model.
 
 #### Create all your states class :
 
@@ -20,10 +21,17 @@ You need at least 1 variable : **key** which is he real value of the column in d
 
 If you want to use other variable as key, you can give the name of the variable in you stateStack creation (see bellow)
 
+First parameter is all your available state as an array
+Second parameter is the default value when creating a model (optionnal)
+Third parameter is to override the default key value
+
+
 ```php
-new StateStack(self::$status, 'customKey'),
+new StateStack(self::$status, Pending::class, 'customKey'),
 ```
 
+
+Declare many states in the directory of your choice :
 ```php
 
 namespace App\Models\States;
@@ -122,13 +130,48 @@ Select::make('Status','_status')
 ),
 ```
 
+## Complex State AKA StateFlow :
+
+If you want to use states machine flows in your app you can add register like so :
+
+```php
+
+...
+
+protected static function registerStates(){
+    return [
+        // use a custom method in your model
+        'status' => self::registerNewFlow(),
+    ];
+}
+
+// You need to use the StateFlow class
+protected static function registerNewFlow(){
+    // We'll use the data from above
+    return (new StateFlow(self::$status))
+    ->addFlow(Pending::class, [
+        Accepted::class,
+        Refused::class
+    ])
+    ->addFlow(Refused::class, [
+        Pending::class
+    ])
+    ->addFlow(Accepted::class, [
+        Pending::class,
+        Canceled::class,
+        CanceledByAdmin::class
+    ])
+    ->default(Pending::class);
+    // You can specify a default class, when creating you don't need to provide value !
+}
+
+```
 
 ### Features to come :
 
-- Complex state machine class with flow
 - Awesome artisan helpers with stubs
-- Validations of existing states in your model
-- Possibility of using getter & settings in your state classes
+- Helper to check if you can transition to another state
+- Possibility of using getter & setters in your state classes
 - Tests
 
 ### Testing
