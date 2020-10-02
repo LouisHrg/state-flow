@@ -1,0 +1,52 @@
+{
+    "name": "louishrg/state-flow",
+    "description": "Simple implementation of state machine for Laravel",
+    "keywords": [
+        "louishrg",
+        "state-flow"
+    ],
+    "homepage": "https://github.com/louishrg/state-flow",
+    "license": "MIT",
+    "version": "0.2.0",
+    "type": "library",
+    "authors": [
+        {
+            "name": "Louis Harang",
+            "email": "dev@narah.io",
+            "role": "Developer"
+        }
+    ],
+    "require": {
+        "php": "^7.2",
+        "illuminate/support": "^8.0"
+    },
+    "require-dev": {
+        "orchestra/testbench": "^4.0",
+        "phpunit/phpunit": "^8.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "Louishrg\\StateFlow\\": "src"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Louishrg\\StateFlow\\Tests\\": "tests"
+        }
+    },
+    "scripts": {
+        "test": "vendor/bin/phpunit",
+        "test-coverage": "vendor/bin/phpunit --coverage-html coverage"
+
+    },
+    "config": {
+        "sort-packages": true
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Louishrg\\StateFlow\\StateFlowServiceProvider"
+            ]
+        }
+    }
+}
