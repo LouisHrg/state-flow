@@ -2,6 +2,10 @@
 
 All notable changes to `state-flow` will be documented in this file
 
+## 0.4.0 - 2020-10-03
+
+- Add artisan command to create states faster
+
 ## 0.3.0 - 2020-10-02
 
 - Renaming StateFlow & StateStack to Flow & Stack

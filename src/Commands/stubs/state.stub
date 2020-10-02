@@ -1,8 +1,7 @@
 <?php
 
-namespace {{ namespace }};
+namespace App\Models\States\{{ namespace }};
 
 class {{ class }}
 {
-
-}
+{{ properties }} }
