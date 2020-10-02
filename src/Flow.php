@@ -2,7 +2,7 @@
 
 namespace Louishrg\StateFlow;
 
-class StateFlow
+class Flow
 {
   public $states = [];
   public $flows = [];
@@ -14,7 +14,7 @@ class StateFlow
     $this->key = $key;
   }
 
-  public function addFlow($original, $destinations)
+  public function add($original, $destinations)
   {
     $this->flows[$original] = $destinations;
     return $this;
