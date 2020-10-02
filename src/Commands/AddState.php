@@ -2,10 +2,8 @@
 
 namespace Louishrg\StateFlow\Commands;
 
-use Illuminate\Console\GeneratorCommand;
 use Illuminate\Console\Command;
 use Illuminate\Filesystem\Filesystem;
-use Illuminate\Support\Facades\Storage;
 
 class AddState extends Command
 {
@@ -18,16 +16,15 @@ class AddState extends Command
         $model = $this->argument("model");
         $target = $this->argument("target");
 
-        if(!$target) {
+        if (! $target) {
             $modelParts = explode('/', $model);
             end($modelParts);
             $key = key($modelParts);
             $target = $modelParts[$key];
         }
 
-
         $this->info("Creating a state for ".$model);
-        $attributes = $this->ask('Type for all the properties of your state separated by spaces');
+        $attributes = $this->ask('Type for all the properties of your state separated by spaces', null);
 
         $classNames = $this->ask('List all your available state class name (separated by spaces), e.g "Pending Refused Canceled"');
 
@@ -36,10 +33,10 @@ class AddState extends Command
 
         $guessedPath = base_path('app/Models/States/'.$target);
 
-        if(!is_dir($guessedPath)) {
+        if (! is_dir($guessedPath)) {
             (new Filesystem)
             ->makeDirectory(base_path('app/Models/States/'.$target), 0755, true);
-        } else{
+        } else {
             $this->error('Directory already exists !');
         }
 
@@ -53,8 +50,8 @@ class AddState extends Command
         return 0;
     }
 
-    public function buildClass($class, $attributes, $guessedPath, $target){
-
+    public function buildClass($class, $attributes, $guessedPath, $target)
+    {
         $stub = file_get_contents(__DIR__.'/stubs/state.stub');
 
         $targetFile = $guessedPath.'/'.$class.'.php';
@@ -66,7 +63,9 @@ class AddState extends Command
         ];
 
         $newValue = str_replace(
-              array_keys($replace), array_values($replace), $stub
+            array_keys($replace),
+            array_values($replace),
+            $stub
         );
 
         file_put_contents($targetFile, $newValue);
@@ -78,6 +77,7 @@ class AddState extends Command
         foreach ($attributes as $attribute) {
             $parsed .= '  public $'.$attribute.';'.PHP_EOL;
         }
+
         return $parsed;
     }
 }

@@ -2,6 +2,11 @@
 
 All notable changes to `state-flow` will be documented in this file
 
+## 1.0.0 - 2020-10-03
+
+- Add tests
+- First release
+
 ## 0.4.0 - 2020-10-03
 
 - Add artisan command to create states faster
