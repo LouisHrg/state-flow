@@ -3,28 +3,17 @@
 namespace Louishrg\StateFlow;
 
 use Illuminate\Support\ServiceProvider;
-use Louishrg\StateFlow\Commands\NewState;
+use Louishrg\StateFlow\Commands\AddState;
 
 class StateFlowServiceProvider extends ServiceProvider
 {
-    /**
-     * Bootstrap the application services.
-     */
     public function boot()
     {
         if ($this->app->runningInConsole()) {
 
-            /*$this->commands([
-                NewState::class,
-            ]);*/
+            $this->commands([
+                AddState::class,
+            ]);
         }
-    }
-
-    /**
-     * Register the application services.
-     */
-    public function register()
-    {
-
     }
 }
