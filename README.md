@@ -1,6 +1,6 @@
 # Laravel State Flow
 
-Simple state machine / resilient states for your Laravel application !
+Simple state machine / resilient states for your Laravel application!
 
 ## Installation
 
@@ -12,18 +12,17 @@ composer require louishrg/state-flow
 
 ## Simple states AKA StateStack
 
-Simple stack that doesn't need to register transtions. If you want for example to add a hardcoded type or category to your model.
+Simple stack that doesn't need to register transitions. If you want for example to add a hardcoded type or category to your model.
 
-#### Create all your states class :
+#### Create all your states class:
 
+You need at least 1 variable: **key** which is the real value of the column in the database.
 
-You need at least 1 variable : **key** which is he real value of the column in database.
+If you want to use other variables as key, you can give the name of the variable in you stateStack creation (see below)
 
-If you want to use other variable as key, you can give the name of the variable in you stateStack creation (see bellow)
-
-First parameter is all your available state as an array
-Second parameter is the default value when creating a model (optionnal)
-Third parameter is to override the default key value
+First parameter is all your available state as an array.
+Second parameter is the default value when creating a model (optional).
+Third parameter is to override the default key-value.
 
 
 ```php
@@ -31,7 +30,7 @@ new StateStack(self::$status, Pending::class, 'customKey'),
 ```
 
 
-Declare many states in the directory of your choice :
+Declare many states in the directory of your choice:
 ```php
 
 namespace App\Models\States;
@@ -100,26 +99,26 @@ Now you can get your state as an object by typing
 ```php
 $user = User::first();
 
-// It'll give you the state object with all your constant in it !
+// It'll give you the state object with all your constant in it!
 $user->status;
 ```
 
-If you want to update/create an object with a state :
+If you want to update/create an object with a state:
 
 ```php
 $user = new User;
 
-// Simply pass the state class and that's it !
+// Simply pass the state class and that's it!
 $user->status = Pending::class;
 ```
 
-#### For Laravel Nova :
+#### For Laravel Nova:
 
 Since nova will retrieve your model from the DB and cast the states to objects, you can prefix your static with an underscore to set/get the original value.
 
-**Warning :** if you want your application to fully embrace states, you should use this attribute for this edge case only .
+**Warning:** if you want your application to fully embrace states, you should use this attribute for this edge case only.
 
-Example with a select :
+Example with a select:
 
 ```php
 Select::make('Status','_status')
@@ -130,9 +129,9 @@ Select::make('Status','_status')
 ),
 ```
 
-## Complex State AKA StateFlow :
+## Complex State AKA StateFlow:
 
-If you want to use states machine flows in your app you can add register like so :
+If you want to use states machine flows in your app you can add register like so:
 
 ```php
 
@@ -167,7 +166,7 @@ protected static function registerNewFlow(){
 
 ```
 
-### Features to come :
+### Features to come:
 
 - Awesome artisan helpers with stubs
 - Helper to check if you can transition to another state
@@ -182,7 +181,7 @@ composer test
 
 ### Changelog
 
-Please see [CHANGELOG](CHANGELOG.md) for more information what has changed recently.
+Please see [CHANGELOG](CHANGELOG.md) for more information about what has changed recently.
 
 ## Contributing
 
@@ -190,7 +189,7 @@ Please see [CONTRIBUTING](CONTRIBUTING.md) for details.
 
 ### Security
 
-If you discover any security related issues, please email dev@narah.io instead of using the issue tracker.
+If you discover any security-related issues, please email dev@narah.io instead of using the issue tracker.
 
 ## Credits
 
