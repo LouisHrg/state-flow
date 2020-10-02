@@ -10,6 +10,15 @@ You can install the package via composer:
 composer require louishrg/state-flow
 ```
 
+## Create your states classes with artisan :
+
+Creating files for every available states is repetitive, that's why this package provide an artisan command to speed up the process :
+
+
+```bash
+php artisan states:new
+```
+
 ## Simple states AKA Stack
 
 A Stack is a simple state machine that doesn't need to register transitions. It's a very convenient way to add a hardcoded type or category to your model.
@@ -22,11 +31,11 @@ If you want to use other variables as key, you can give the name of the variable
 
 - First parameter is all your available state as an array.
 - Second parameter is the default value when creating a model (optional).
-- Third parameter is to override the default key-value.
+- Third parameter is to override the default key-value (optional).
 
 
 ```php
-new StateStack(self::$status, Pending::class, 'key'),
+new Stack(self::$status, Pending::class, 'key'),
 ```
 
 Declare your states classes in the directory of your choice, for example :
@@ -195,7 +204,6 @@ $user->status->allowedTo();
 
 ### Features to come:
 
-- Awesome artisan helpers with stubs
 - Possibility of using getter & setters in your state classes
 - Tests
 
