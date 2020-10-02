@@ -10,30 +10,29 @@ You can install the package via composer:
 composer require louishrg/state-flow
 ```
 
-## Simple states AKA StateStack
+## Simple states AKA Stack
 
-Simple stack that doesn't need to register transitions. If you want for example to add a hardcoded type or category to your model.
+A Stack is a simple state machine that doesn't need to register transitions. It's a very convenient way to add a hardcoded type or category to your model.
 
-#### Create all your states class:
+#### How to use :
 
 You need at least 1 variable: **key** which is the real value of the column in the database.
 
 If you want to use other variables as key, you can give the name of the variable in you stateStack creation (see below)
 
-First parameter is all your available state as an array.
-Second parameter is the default value when creating a model (optional).
-Third parameter is to override the default key-value.
+- First parameter is all your available state as an array.
+- Second parameter is the default value when creating a model (optional).
+- Third parameter is to override the default key-value.
 
 
 ```php
-new StateStack(self::$status, Pending::class, 'customKey'),
+new StateStack(self::$status, Pending::class, 'key'),
 ```
 
+Declare your states classes in the directory of your choice, for example :
 
-Declare many states in the directory of your choice:
 ```php
-
-namespace App\Models\States;
+namespace App\Models\States\User;
 
 class Active
 {
@@ -43,44 +42,43 @@ class Active
     public $color = 'green';
     // and everything you want !
 }
-
 ```
 
-#### Declaration
+Now, add all the needed declaration in your model :
 
 ``` php
 <?php
 
 ...
 
+// Import all your states
 use App\Models\States\Active;
 use App\Models\States\Banned;
 use App\Models\States\Inactive;
 
 // Import the classes
-use Louishrg\StateFlow\WithState;
-use Louishrg\StateFlow\StateCast;
-use Louishrg\StateFlow\StateStack;
+use Louishrg\StateFlow\Traits\WithState;
+use Louishrg\StateFlow\Casts\StateCast;
+use Louishrg\StateFlow\Stack;
 
-class User extends Authenticatable
+class User
 {
-    // Add the trait
-    use HasFactory, Notifiable, WithState;
+    // Add WithState trait
+    use WithState, ...;
 
     ...
 
-
-    // store your states for a namespace in a var for example
+    // You can register all available states for a namespace in a var for example
     protected static $status = [
         Active::class,
         Banned::class,
         Inactive::class,
     ];
 
-    // register your states as a StateStack
+    // register your states as a Stack for the namespace "status"
     protected static function registerStates(){
         return [
-            'status' => new StateStack(self::$status),
+            'status' => new Stack(self::$status),
         ];
     }
 
@@ -94,13 +92,11 @@ class User extends Authenticatable
 
 ```
 
-Now you can get your state as an object by typing
+Now you can get your state like so :
 
 ```php
-$user = User::first();
-
-// It'll give you the state object with all your constant in it!
 $user->status;
+// It'll give you the state object with all your defined constants in it.
 ```
 
 If you want to update/create an object with a state:
@@ -108,15 +104,15 @@ If you want to update/create an object with a state:
 ```php
 $user = new User;
 
-// Simply pass the state class and that's it!
+// Simply pass the state class and that's it.
 $user->status = Pending::class;
 ```
 
-#### For Laravel Nova:
+#### Workaround for Laravel Nova:
 
-Since nova will retrieve your model from the DB and cast the states to objects, you can prefix your static with an underscore to set/get the original value.
+Since Nova will retrieve your model from the DB and cast your model states to object, you can prefix your namespace with an underscore to set/get the original value.
 
-**Warning:** if you want your application to fully embrace states, you should use this attribute for this edge case only.
+**Warning:** if you want your application to fully embrace this pattern, you should use this attribute for this edge case **only**.
 
 Example with a select:
 
@@ -129,47 +125,77 @@ Select::make('Status','_status')
 ),
 ```
 
-## Complex State AKA StateFlow:
+#### Useful Methods :
 
-If you want to use states machine flows in your app you can add register like so:
+If you want to compare the current value of a state with another one, you can use
 
 ```php
+$user->status->equal(Banned::class);
+```
+
+Also, you can directly get the class of your current state :
+
+```php
+$user->status->is();
+```
+
+## Complex States AKA Flow:
+
+If you want to use the real state machine pattern in your app you can add register like so:
+
+```php
+
+// Import the Flow class
+use Louishrg\StateFlow\Flow;
 
 ...
 
 protected static function registerStates(){
     return [
-        // use a custom method in your model
-        'status' => self::registerNewFlow(),
+        // use a custom method in your model for better readability
+        'status' => self::myFlow(),
     ];
 }
 
-// You need to use the StateFlow class
-protected static function registerNewFlow(){
+// You need to use the Flow class
+protected static function myFlow(){
     // We'll use the data from above
-    return (new StateFlow(self::$status))
-    ->addFlow(Pending::class, [
+    return (new Flow(self::$status))
+    // Add a transition, here your state can go from Pending to either Accepted or Refused.
+    ->add(Pending::class, [
         Accepted::class,
         Refused::class
     ])
-    ->addFlow(Refused::class, [
+    ->add(Refused::class, [
         Pending::class
     ])
-    ->addFlow(Accepted::class, [
+    ->add(Accepted::class, [
         Pending::class,
         Canceled::class,
         CanceledByAdmin::class
     ])
     ->default(Pending::class);
-    // You can specify a default class, when creating you don't need to provide value !
+    // You can specify a default class, when creating you don't need to provide value.
 }
+```
 
+#### Methods for flows :
+
+When using flows, you can check if you can transition to another state like so :
+
+```php
+$user->status->canBe(Banned::class);
+```
+
+Or you can get all the possible transitions for your current state :
+
+```php
+$user->status->allowedTo();
 ```
 
 ### Features to come:
 
 - Awesome artisan helpers with stubs
-- Helper to check if you can transition to another state
 - Possibility of using getter & setters in your state classes
 - Tests
 

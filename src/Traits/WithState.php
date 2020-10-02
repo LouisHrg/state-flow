@@ -1,6 +1,6 @@
 <?php
 
-namespace Louishrg\StateFlow;
+namespace Louishrg\StateFlow\Traits;
 
 use Exception;
 use Louishrg\StateFlow\State;
@@ -16,7 +16,6 @@ trait WithState
           if(!self::verifyNamespaces($states)){
             throw new Exception('Error !');
           }
-
           static::$states = $states;
   }
 
@@ -87,7 +86,16 @@ trait WithState
       throw new Exception('You must provide a default value or assign a value to your state');
   }
 
-  public static function getStateStack(string $namespace)
+  public static function findFlows($namespace): ?string
+  {
+      if(static::$states[$namespace]->flows){
+        return static::$states[$namespace]->flows;
+      }
+      throw new Exception('There is no defined flows for the namespace '.$namespace);
+  }
+
+
+  public static function getState(string $namespace)
   {
     $output = [];
 
@@ -102,7 +110,7 @@ trait WithState
   {
     foreach (self::$states as $namespace => $data) {
 
-      $target = $this->$namespace->class;
+      $target = $this->$namespace->is();
 
       if(!in_array($target, $data->states)){
         throw new Exception('Provided states isn\'t registered for "'.$namespace);
@@ -114,7 +122,7 @@ trait WithState
   {
     foreach (self::$states as $namespace => $data) {
 
-      if(!property_exists($data, 'flows')) continue;
+      if(!get_class($data) !== Flow::class) continue;
 
       $original = $this->original
       ? self::findState($this->original[$namespace], $namespace)

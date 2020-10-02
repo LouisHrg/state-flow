@@ -2,7 +2,7 @@
 
 namespace Louishrg\StateFlow;
 
-class StateStack
+class Stack
 {
   public $states = [];
   public $key;

@@ -1,6 +1,6 @@
 <?php
 
-namespace Louishrg\StateFlow;
+namespace Louishrg\StateFlow\Casts;
 
 use Illuminate\Contracts\Database\Eloquent\CastsAttributes;
 use Exception;
@@ -17,7 +17,11 @@ class StateCast implements CastsAttributes
         : $model::findDefaultState($key);
 
         if($stateValue) {
-            return new State($stateValue);
+            $flows = isset($model::$states[$key]->flows)
+            ? $model::$states[$key]->flows
+            : null;
+
+            return new State($stateValue, $flows);
         } else{
             throw new Exception('State not found');
         }
