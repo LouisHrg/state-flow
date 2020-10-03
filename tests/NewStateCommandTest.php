@@ -26,18 +26,15 @@ class NewStateCommandTest extends TestCase
             'Canceled.php',
         ];
 
-         $basePath = base_path('app/Models/States/User/');
+        $basePath = base_path('app/Models/States/User/');
 
-         foreach ($files as $file) {
-
+        foreach ($files as $file) {
             $this->assertFileExists($basePath.$file);
             $data = file_get_contents($basePath.$file);
 
             $this->assertNotFalse(strpos($data, '$key'));
             $this->assertNotFalse(strpos($data, '$label'));
             $this->assertNotFalse(strpos($data, '$color'));
-         }
-
-
+        }
     }
 }
