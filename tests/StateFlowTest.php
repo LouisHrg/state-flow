@@ -99,4 +99,19 @@ class StateFlowTest extends TestCase
         $this->assertIsArray($dummy->flow->allowedTo());
         $this->assertEquals($dummy->flow->allowedTo(), []);
     }
+
+    /** @test */
+    public function state_is_method()
+    {
+        $dummy = Dummy::first();
+        $this->assertEquals($dummy->dummy->is(), DummyState::class);
+    }
+
+    /** @test */
+    public function state_equal_method()
+    {
+        $dummy = Dummy::first();
+        $this->assertTrue($dummy->dummy->equal(DummyState::class));
+        $this->assertFalse($dummy->dummy->equal(OkDummyState::class));
+    }
 }
