@@ -2,6 +2,10 @@
 
 All notable changes to `state-flow` will be documented in this file
 
+## 1.0.1 - 2020-10-03
+
+- Fix State::equal() method
+
 ## 1.0.0 - 2020-10-03
 
 - Add tests

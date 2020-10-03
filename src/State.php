@@ -48,7 +48,7 @@ class State
 
     public function equal($value): bool
     {
-        return $this->class = $value;
+        return $this->class === $value;
     }
 
     public function is(): string
