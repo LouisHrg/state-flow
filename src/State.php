@@ -1,48 +1,58 @@
 <?php
 
 namespace Louishrg\StateFlow;
-use Exception;
+
+use BadFunctionCallException;
 
 class State
 {
+    private $class;
+    private $flows;
 
-  private $class;
-  private $flows;
+    public function __construct($stateClass, $flows = null)
+    {
+        $this->class = $stateClass;
 
-  public function __construct($stateClass, $flows = null) {
+        foreach (get_class_vars($stateClass) as $key => $value) {
+            $this->$key = $value;
+        }
 
-      $this->class = $stateClass;
+        if ($flows) {
+            $this->flows = $flows;
+        } else {
+            unset($this->flows);
+        }
+    }
 
-      foreach (get_class_vars($stateClass) as $key => $value) {
-          $this->$key = $value;
-      }
+    public function canBe($target): bool
+    {
+        if (! isset($this->flows)) {
+            throw new BadFunctionCallException("Method not allowed on stacks (State::canBe)");
+        }
 
-      if($flows){
-        $this->flows = $flows;
-      } else {
-        unset($this->flows);
-      }
-  }
+        return in_array($target, $this->flows[$this->class]);
+    }
 
-  public function canBe($target): bool
-  {
-    if(!isset($this->flows)) throw new Exception("Method not allowed on stacks (State::canBe)");
-    return in_array($target, $this->flows[$this->class]);
-  }
+    public function allowedTo(): array
+    {
+        if (! isset($this->flows)) {
+            throw new BadFunctionCallException("Method not allowed on stacks (State::allowedTo)");
+        }
 
-  public function allowedTo(): array
-  {
-    if(!isset($this->flows)) throw new Exception("Method not allowed on stacks (State::allowedTo)");
-    return $this->flows[$this->class];
-  }
+        if (isset($this->flows[$this->class])) {
+            return $this->flows[$this->class];
+        }
 
-  public function equal($value): bool
-  {
-    return $this->class = $value;
-  }
+        return [];
+    }
 
-  public function is(): string
-  {
-    return $this->class;
-  }
+    public function equal($value): bool
+    {
+        return $this->class = $value;
+    }
+
+    public function is(): string
+    {
+        return $this->class;
+    }
 }

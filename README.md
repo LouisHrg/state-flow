@@ -1,5 +1,10 @@
 # Laravel State Flow
 
+[![Latest Version on Packagist](https://img.shields.io/packagist/v/louishrg/state-flow.svg?style=flat-square)](https://packagist.org/packages/louishrg/state-flow)
+[![GitHub Tests Action Status](https://img.shields.io/github/workflow/status/louishrg/state-flow/run-tests?label=tests)](https://github.com/louishrg/state-flow/actions?query=workflow%3Arun-tests+branch%3Amaster)
+[![Total Downloads](https://img.shields.io/packagist/dt/louishrg/state-flow.svg?style=flat-square)](https://packagist.org/packages/louishrg/state-flow)
+
+
 Simple state machine / resilient states for your Laravel application!
 
 ## Installation
