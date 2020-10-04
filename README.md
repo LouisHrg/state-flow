@@ -48,7 +48,9 @@ Declare your states classes in the directory of your choice, for example :
 ```php
 namespace App\Models\States\User;
 
-class Active
+use Louishrg\StateFlow\StateAbstract;
+
+class Active extends StateAbstract
 {
     public $key = 'active';
 
@@ -206,6 +208,23 @@ Or you can get all the possible transitions for your current state :
 ```php
 $user->status->allowedTo();
 ```
+
+## Magic methods for your state :
+
+When you are retrieving rows from your database, you new to instanciate your state to get the key :
+
+```php
+$users = User::where('status', (new Active)->key)->get();
+```
+
+In order to simplify the syntax, every State values extend a StateAbstract that provide magic methods :
+
+```php
+$users = User::where('status', Active::key())->get();
+```
+
+The magic methods can get you every property defined in your State
+
 
 ### Features to come:
 
