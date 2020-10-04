@@ -114,4 +114,16 @@ class StateFlowTest extends TestCase
         $this->assertTrue($dummy->dummy->equal(DummyState::class));
         $this->assertFalse($dummy->dummy->equal(OkDummyState::class));
     }
+
+    /** @test */
+    public function state_has_magic_methods()
+    {
+        $this->assertEquals(DummyState::key(), 'dummy');
+        $this->assertEquals(DummyState::key(), 'dummy');
+
+        $this->expectException(Exception::class);
+        $this->expectExceptionMessage("The property spooky doesn't exists.");
+
+        $this->assertEquals(OkDummyState::spooky(), 'OkDummy');
+    }
 }

@@ -2,6 +2,8 @@
 
 namespace App\Models\States\{{ namespace }};
 
-class {{ class }}
+use Louishrg\StateFlow\StateAbstract;
+
+class {{ class }} extends StateAbstract
 {
-{{ properties }} }
+{{ properties }}}
