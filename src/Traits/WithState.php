@@ -31,7 +31,7 @@ trait WithState
         return true;
     }
 
-    public function getAttribute($key)
+    public function getAttributeWithState($key)
     {
         if (substr($key, 0, 1) === '_') {
             $originalKey = substr($key, 1);
@@ -44,7 +44,7 @@ trait WithState
         return parent::getAttribute($key);
     }
 
-    public function setAttribute($key, $value)
+    public function setAttributeWithState($key, $value)
     {
         if (substr($key, 0, 1) === '_') {
             $originalKey = substr($key, 1);
@@ -56,7 +56,6 @@ trait WithState
 
         return parent::setAttribute($key, $value);
     }
-
 
     protected static function verifyState($namespace, $stateStack)
     {
