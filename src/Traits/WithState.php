@@ -36,6 +36,7 @@ trait WithState
             $originalKey = substr($key, 1);
             if (isset(static::$states[$originalKey])) {
                 $key = static::$states[$originalKey]->key;
+
                 return $this->getAttribute($originalKey)->key;
             }
         }
@@ -49,6 +50,7 @@ trait WithState
             $originalKey = substr($key, 1);
             $translatedState = self::findState($value, $originalKey);
             $this->setAttribute($originalKey, $translatedState);
+
             return $this;
         }
 
