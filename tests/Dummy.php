@@ -27,11 +27,11 @@ class Dummy extends Model
     protected static function registerFlow()
     {
         return (new Flow(self::$status))
-      ->add(DummyState::class, [
-        OkDummyState::class,
-        NotDummyState::class,
-      ])
-      ->default(DummyState::class);
+            ->add(DummyState::class, [
+                OkDummyState::class,
+                NotDummyState::class,
+            ])
+            ->default(DummyState::class);
     }
 
     protected static function registerStates()

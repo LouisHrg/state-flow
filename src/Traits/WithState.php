@@ -20,25 +20,25 @@ trait WithState
 
     abstract protected static function registerStates();
 
-    protected static function verifyNamespaces(?array $states)
+    public function __set($key, $value)
     {
-        foreach ($states as $namespace => $statesNamespaced) {
-            if (! self::verifyState($namespace, $statesNamespaced)) {
-                return false;
-            }
-        }
+        return $this->setAttributeWithState($key, $value);
+    }
 
-        return true;
+    public function __get($key)
+    {
+        return $this->getAttributeWithState($key);
     }
 
     public function getAttributeWithState($key)
     {
         if (substr($key, 0, 1) === '_') {
             $originalKey = substr($key, 1);
+            if (isset(static::$states[$originalKey])) {
+                $key = static::$states[$originalKey]->key;
 
-            $key = static::$states[$originalKey]->key;
-
-            return $this->$originalKey->$key;
+                return $this->getAttribute($originalKey)->key;
+            }
         }
 
         return parent::getAttribute($key);
@@ -49,12 +49,23 @@ trait WithState
         if (substr($key, 0, 1) === '_') {
             $originalKey = substr($key, 1);
             $translatedState = self::findState($value, $originalKey);
-            $this->$originalKey = $translatedState;
+            $this->setAttribute($originalKey, $translatedState);
 
             return $this;
         }
 
         return parent::setAttribute($key, $value);
+    }
+
+    protected static function verifyNamespaces(?array $states)
+    {
+        foreach ($states as $namespace => $statesNamespaced) {
+            if (! self::verifyState($namespace, $statesNamespaced)) {
+                return false;
+            }
+        }
+
+        return true;
     }
 
     protected static function verifyState($namespace, $stateStack)
