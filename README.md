@@ -135,7 +135,7 @@ Example with a select:
 ```php
 Select::make('Status','_status')
 ->options(
-  User::getStateStack('status')
+  User::getState('status')
   ->pluck('label', 'key')
   ->toArray()
 ),
@@ -154,6 +154,13 @@ Also, you can directly get the class of your current state :
 ```php
 $user->status->is();
 ```
+
+If you want to retrieve all your states registered in a namespace as a collection :
+
+```php
+User::getState('status')
+```
+
 
 ## Complex States AKA Flow:
 

@@ -129,4 +129,24 @@ class StateFlowTest extends TestCase
 
         $this->assertEquals(OkDummyState::spooky(), 'OkDummy');
     }
+
+    /** @test */
+    public function get_state_method()
+    {
+        $namespacedStat = Dummy::getState('dummy');
+
+        $reflection = [
+            new State(DummyState::class),
+            new State(NotDummyState::class),
+            new State(OkDummyState::class),
+        ];
+
+        $this->assertEquals(Dummy::getState('dummy'), collect($reflection));
+
+
+        $this->expectException(Exception::class);
+        $this->expectExceptionMessage("State 'notdummy' isn't registered");
+
+        Dummy::getState('notdummy');
+    }
 }

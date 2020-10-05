@@ -11,6 +11,11 @@ trait WithState
 
     protected static function bootWithState()
     {
+        static::_boot();
+    }
+
+    protected static function _boot()
+    {
         $states = self::registerStates();
         if (! self::verifyNamespaces($states)) {
             throw new Exception('Error !');
@@ -117,8 +122,15 @@ trait WithState
 
     public static function getState(string $namespace)
     {
-        $output = [];
+        if (! isset(static::$booted[static::class])) {
+            self::_boot();
+        }
 
+        if(! isset(static::$states[$namespace])){
+            throw new Exception("State '".$namespace. "' isn't registered");
+        }
+
+        $output = [];
         foreach (static::$states[$namespace]->states as $value) {
             $output[] = new State($value);
         }

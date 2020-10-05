@@ -4,7 +4,9 @@ All notable changes to `state-flow` will be documented in this file
 
 ## 1.2.2 - 2020-10-05
 
-- Fix another conflict with setAttribute/getAttribute
+- Fix setter/getters
+- Fix getState booting method
+- Update readme
 
 ## 1.2.1 - 2020-10-05
 
