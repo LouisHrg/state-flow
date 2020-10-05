@@ -11,6 +11,10 @@ class StateAbstract
         $reflection = new static;
 
         if (isset($reflection->$name)) {
+            if (is_array($reflection->$name) && isset($arguments[0])) {
+                return $reflection->$name[$arguments[0]];
+            }
+
             return $reflection->$name;
         }
 
