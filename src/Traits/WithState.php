@@ -126,7 +126,7 @@ trait WithState
             self::_boot();
         }
 
-        if(! isset(static::$states[$namespace])){
+        if (! isset(static::$states[$namespace])) {
             throw new Exception("State '".$namespace. "' isn't registered");
         }
 
