@@ -89,7 +89,10 @@ class StateFlowTest extends TestCase
     public function flow_allowedTo_method()
     {
         $dummy = new Dummy;
-        $array = [ OkDummyState::class, NotDummyState::class ];
+        $array = [
+            OkDummyState::class,
+            NotDummyState::class,
+        ];
 
         $this->assertIsArray($dummy->flow->allowedTo());
         $this->assertEquals($dummy->flow->allowedTo(), $array);
