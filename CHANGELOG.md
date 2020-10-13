@@ -2,6 +2,12 @@
 
 All notable changes to `state-flow` will be documented in this file
 
+## 1.2.3 - 2020-10-13
+
+- Add doc to artisan command
+- Minor changes in State class
+- Better example for Nova in doc
+
 ## 1.2.2 - 2020-10-05
 
 - Fix setter/getters
