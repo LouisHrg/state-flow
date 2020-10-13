@@ -7,7 +7,9 @@ use Illuminate\Filesystem\Filesystem;
 
 class AddState extends Command
 {
-    protected $signature = 'states:new {model} {target?}';
+    protected $signature = 'states:new
+                            {model : The model for which the states are created}
+                            {target? : The path to save the states. By default the Model name is used}';
 
     protected $description = 'Add new state namespace to your model';
 
