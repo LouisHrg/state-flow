@@ -131,11 +131,12 @@ If you want to use the package in nova, you should use it as following :
 Example with a select:
 
 ```php
-Select::make('Status')
+Select::make('Statut', 'status')
 ->options(GearRequest::getState('status')->pluck('label', 'key')->toArray())
 ->displayUsing(fn($item) => $item->label)
 ->resolveUsing(fn($item) => $item->key)
-->fillUsing(fn($item) => $item->class),
+// Use the magic setter in the fillUsing method
+->fillUsing(fn($request, $model) => ($model->_status = $request->status)),
 ```
 
 #### Useful Methods :
