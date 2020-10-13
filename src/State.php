@@ -6,7 +6,7 @@ use BadFunctionCallException;
 
 class State
 {
-    private $class;
+    public $class;
     private $flows;
 
     public function __construct($stateClass, $flows = null)
