@@ -124,21 +124,18 @@ $user = new User;
 $user->status = Pending::class;
 ```
 
-#### Workaround for Laravel Nova:
+#### Laravel Nova:
 
-Since Nova will retrieve your model from the DB and cast your model states to object, you can prefix your namespace with an underscore to set/get the original value.
-
-**Warning:** if you want your application to fully embrace this pattern, you should use this attribute for this edge case **only**.
+If you want to use the package in nova, you should use it as following :
 
 Example with a select:
 
 ```php
-Select::make('Status','_status')
-->options(
-  User::getState('status')
-  ->pluck('label', 'key')
-  ->toArray()
-),
+Select::make('Status')
+->options(GearRequest::getState('status')->pluck('label', 'key')->toArray())
+->displayUsing(fn($item) => $item->label)
+->resolveUsing(fn($item) => $item->key)
+->fillUsing(fn($item) => $item->class),
 ```
 
 #### Useful Methods :
