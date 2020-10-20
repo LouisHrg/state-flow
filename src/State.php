@@ -30,7 +30,11 @@ class State
             throw new BadFunctionCallException("Method not allowed on stacks (State::canBe)");
         }
 
-        return in_array($target, $this->flows[$this->class]);
+        if (isset($this->flows[$this->class])) {
+            return in_array($target, $this->flows[$this->class]);
+        }
+
+        return false;
     }
 
     public function allowedTo(): array
