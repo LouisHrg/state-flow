@@ -2,6 +2,10 @@
 
 All notable changes to `state-flow` will be documented in this file
 
+## 1.2.4 - 2020-10-20
+
+- Fix State::canBe breaking when there is no flow for current state
+
 ## 1.2.3 - 2020-10-13
 
 - Add doc to artisan command
