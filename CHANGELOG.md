@@ -2,6 +2,10 @@
 
 All notable changes to `state-flow` will be documented in this file
 
+## 1.3.0 - 2021-03-05
+
+- Use methods as property in your state object
+
 ## 1.2.4 - 2020-10-20
 
 - Fix State::canBe breaking when there is no flow for current state
