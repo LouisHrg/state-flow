@@ -17,12 +17,13 @@ class State
             $this->$key = $value;
         }
 
-        if(count($methods = get_class_methods($stateClass)) > 1) {
-
+        if (count($methods = get_class_methods($stateClass)) > 1) {
             $obj = new $stateClass;
 
             foreach ($methods as $key => $value) {
-                if($value === '__callstatic') continue;
+                if ($value === '__callstatic') {
+                    continue;
+                }
                 $this->$value = $obj->$value();
             }
         }
