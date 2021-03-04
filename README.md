@@ -57,6 +57,10 @@ class Active extends StateAbstract
     public $label = 'Active';
     public $color = 'green';
     // and everything you want !
+    //
+    public function computedField() {
+        return $this->$label.$this->color;
+    }
 }
 ```
 
