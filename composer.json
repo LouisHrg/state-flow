@@ -8,7 +8,7 @@
     ],
     "homepage": "https://github.com/louishrg/state-flow",
     "license": "MIT",
-    "version": "1.3.0",
+    "version": "1.3.1",
     "type": "library",
     "authors": [
         {
@@ -18,7 +18,7 @@
         }
     ],
     "require": {
-        "php": "^7.2",
+        "php": "^7.2|^8",
         "laravel/framework": "^7.2|^8.0"
     },
     "require-dev": {
