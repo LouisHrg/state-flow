@@ -8,7 +8,7 @@
     ],
     "homepage": "https://github.com/louishrg/state-flow",
     "license": "MIT",
-    "version": "1.4",
+    "version": "1.5",
     "type": "library",
     "authors": [
         {
@@ -18,13 +18,13 @@
         }
     ],
     "require": {
-        "php": "^7.2|^8.1",
-        "laravel/framework": "^7.2|^8.0|^9.0|^10.0"
+        "php": "^7.2|^8.1|^8.2|^8.3",
+        "laravel/framework": "^7.2|^8.0|^9.0|^10.0|^11.0|^12.0"
     },
     "require-dev": {
         "friendsofphp/php-cs-fixer": "^2.16",
         "phpunit/phpunit" : "^8.0|^9.0",
-        "orchestra/testbench": "~3.8.0|^4.0|^5.0|^6.0"
+        "orchestra/testbench": "~3.8.0|^4.0|^5.0|^6.0|^7.0|^8.0|^9.0|^10.0"
     },
     "autoload": {
         "psr-4": {
